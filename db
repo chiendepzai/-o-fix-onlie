@@ -1,0 +1,163 @@
+// Sơ đồ quan hệ thực thể (ERD) cho một trang web thương mại điện tử
+// ERD 2
+
+Table users {
+  id integer [pk]
+  name varchar
+  email varchar
+  password varchar
+  email_verified_at timestamp
+  role varchar
+  google_id varchar
+}
+
+Table dia_chi {
+  id integer [pk]
+  id_user integer [ref: > users.id]
+  sdt varchar
+  ho_ten varchar
+  dia_chi_tiet varchar
+  an_hien boolean
+}
+
+Table don_hang {
+  id integer [pk]
+  id_user integer [ref: > users.id]
+  id_dc integer [ref: > dia_chi.id]
+  tg_mua_hang timestamp
+  tong_don_hang decimal
+  trang_thai varchar
+  uu_dai decimal
+  id_magiamgia integer [ref: > ma_giam_gia.id]
+  id_pt_thanh_toan integer [ref: > pt_thanh_toan.id]
+}
+
+Table pt_thanh_toan {
+  id integer [pk]
+  ten_pttt varchar
+  mo_ta text
+  trang_thai varchar
+}
+
+Table ma_giam_gia {
+  id integer [pk]
+  code varchar
+  phan_tram integer
+  mo_ta text
+  id_kh integer
+  ma_gioi_han integer
+  so_luong integer
+  ngay_het_han timestamp
+  is_active boolean
+}
+
+Table chi_tiet_don_hang {
+  id integer [pk]
+  id_sp integer [ref: > san_pham.id]
+  id_dh integer [ref: > don_hang.id]
+  so_luong integer
+  id_size integer
+  gia decimal
+}
+
+Table danh_gia {
+  id integer [pk]
+  id_sp integer [ref: > san_pham.id]
+  id_user integer [ref: > users.id]
+  id_ctdh integer
+  so_sao integer
+  thoi_diem timestamp
+  hinh_dg varchar
+  phan_hoi text
+  an_hien boolean
+}
+
+Table san_pham {
+  id integer [pk]
+  id_dm integer [ref: > danh_muc.id]
+  ten_sp varchar
+  slug varchar
+  mo_ta_ct text
+  mo_ta_ngan text
+  an_hien boolean
+}
+
+Table hinh {
+  id integer [pk]
+  id_sp integer [ref: > san_pham.id]
+  hinh_sp varchar
+  mac_dinh boolean
+}
+
+Table danh_muc {
+  id integer [pk]
+  ten_dm varchar
+  slug varchar
+  thu_tu integer
+  an_hien boolean
+  parent integer
+}
+
+Table yeu_thich {
+  id integer [pk]
+  id_sp integer [ref: > san_pham.id]
+  id_user integer [ref: > users.id]
+}
+
+Table bien_the {
+  id integer [pk]
+  id_size integer [ref: > sizes.id]
+  id_mau integer [ref: > mau.id]
+  gia decimal
+  so_luong integer
+  luot_ban integer
+  id_sp integer [ref: > san_pham.id]
+}
+
+Table sizes {
+  id integer [pk]
+  ten varchar
+}
+
+Table mau {
+  id integer [pk]
+  ten varchar
+  ma_mau varchar
+}
+
+Table sanpham_khuyenmai {
+  id integer [pk]
+  id_sp integer [ref: > san_pham.id]
+  id_km integer [ref: > khuyen_mai.id]
+}
+
+Table khuyen_mai {
+  id integer [pk]
+  ten_km varchar
+  mota_km text
+  hinh_km varchar
+  ngaybd_km timestamp
+  gia_km decimal
+  ptram_km integer
+  ngaykt_km timestamp
+}
+
+Table gio_hang {
+  id integer [pk]
+  id_sp integer [ref: > san_pham.id]
+  id_user integer [ref: > users.id]
+  so_luong integer
+  trang_thai varchar
+  gia decimal
+}
+
+Table bai_viet {
+  id integer [pk]
+  tieu_de varchar
+  noi_dung text
+  hinh_anh varchar
+  id_dm integer
+  id_user integer [ref: > users.id]
+  ngay_viet timestamp
+  ngaychinhsua timestamp
+}
